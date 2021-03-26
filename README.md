@@ -27,18 +27,18 @@ _note: assuming that the token was issued by [`whodis`](https://github.com/whodi
 
 # docs
 
-### getAuthedUserFromHeaders
+### `getAuthedClaimsFromHeaders({ headers, config, log })`
 
-Function `getAuthedUserFromHeaders` extracts authenticated user data from the auth token found in the headers, if any exist. Additionally, it monitors authentication errors to proactively help with debugging and detect potential security attacks.
+`getAuthedClaimsFromHeaders` extracts authenticated claims from the auth token found in the headers, if any exist. Additionally, it monitors authentication errors to proactively help with debugging and detect potential security attacks.
 
 Operation:
 
 - if there is no auth token in the headers, the function returns `null`
 - if there is an auth token and it can not be authenticated, the error will be logged, reported, and the function returns `null`
-- if there is an auth token and it is successfully authenticated, the function will return the `User` object, containing the uuid
+- if there is an auth token and it is successfully authenticated, the function will return the token claims
 
 ```ts
-const user = await getAuthedUserFromHeaders({
+const claims = await getAuthedClaimsFromHeaders({
   // the headers hold the auth token well be authing
   headers,
 
