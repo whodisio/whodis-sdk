@@ -1,0 +1,99 @@
+/* eslint-disable no-console */
+import { getAuthedClaimsFromHeaders } from './getAuthedClaimsFromHeaders';
+import { reportAuthErrorForDiagnosis } from './reportAuthErrorForDiagnosis';
+
+const log = { warn: (...args: any) => console.log(args) };
+const config = {
+  issuer: 'https://auth.whodis.io/32b8b554-12f5-4f9b-9f16-b13e0b532019',
+  audience: 'https://sdk.whodis.io',
+};
+
+jest.mock('./reportAuthErrorForDiagnosis');
+const reportAuthErrorForDiagnosisMock = reportAuthErrorForDiagnosis as jest.Mock;
+
+const exampleNeverExpiringTestUserAuthHeaders = {
+  authorization:
+    'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6ImI5OGMzNDIzLTE5NDEtNDNhMC1hNmZmLTFhNzQ3NTBhOTc3YyIsImlhdCI6MTYxNjY4MDcyMiwibmJmIjoxNjE2NjgwNzIyLCJleHAiOjE2NTI2ODA3MjIsInR0bCI6MTY1MjY4MDcyMn0.psurui7N-j-50O6IJeJDqNbnCYk01V2uIPd8FAEStCXMHba26RHWLerVHE2E2Kr8DKSH7h1UtBs3OcODm_dP6B2LiASFu2m9htg3bRNd2lfRuoa_tgNePfkIncuBQgcyMFH_I7N1I9UQE8ecVyQKeNh1Eej-2nmuLks9JtmZkQe4I6NziN_ojVHKYDtM1PTqFQ6yXlzEu3Qq7PrOqM3uvE6OWCiiw1LLgJivzVxyP6rPjUFn3BPnbQkz8dg1Cbjaa2l8OXevIpXmqVmPmctG5j6S2cFMDtOF5EF8NcbEXl-N4hhUQ06JeAczFcTkJnYwBOh8It1z2IDpiUXgsbkQmS05afHAtpjf85OxSBsQZIAP0FYx2z6Qs_n5xUQ7r3RXlVeG3d6XFNaM_9oh4UuroRCOavpHyF_dX48INTgMzDZkLxhSCJBtT5llIXR98ZJOnNCnTj0-qitfNbDBY8bPeXJMHTvXQjBeUjaytRvYbY8Bh_dv6nQxw7_15Lif_JXpGWmhYx9fcB_LLdUQ-F-dFY_VGp7FGCF_5r3BZexRAmb2ORjVPLhB5rNqPUYP5XcaHVdJ6DhwrWOWvqwtpED7a-NECT-5KgSCUBWZ3NqGEjswp-8D-O_xVNhDqgufF8geGCUBxrBrMN31_G_4NdZajrjW8Wo7ZPP6XNV_vHoQHAM',
+};
+
+const exampleNeverExpiringTestUserCookieAuthHeaders = {
+  Cookie:
+    'authorization=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6ImI5OGMzNDIzLTE5NDEtNDNhMC1hNmZmLTFhNzQ3NTBhOTc3YyIsImlhdCI6MTYxNjY4MDcyMiwibmJmIjoxNjE2NjgwNzIyLCJleHAiOjE2NTI2ODA3MjIsInR0bCI6MTY1MjY4MDcyMn0.psurui7N-j-50O6IJeJDqNbnCYk01V2uIPd8FAEStCXMHba26RHWLerVHE2E2Kr8DKSH7h1UtBs3OcODm_dP6B2LiASFu2m9htg3bRNd2lfRuoa_tgNePfkIncuBQgcyMFH_I7N1I9UQE8ecVyQKeNh1Eej-2nmuLks9JtmZkQe4I6NziN_ojVHKYDtM1PTqFQ6yXlzEu3Qq7PrOqM3uvE6OWCiiw1LLgJivzVxyP6rPjUFn3BPnbQkz8dg1Cbjaa2l8OXevIpXmqVmPmctG5j6S2cFMDtOF5EF8NcbEXl-N4hhUQ06JeAczFcTkJnYwBOh8It1z2IDpiUXgsbkQmS05afHAtpjf85OxSBsQZIAP0FYx2z6Qs_n5xUQ7r3RXlVeG3d6XFNaM_9oh4UuroRCOavpHyF_dX48INTgMzDZkLxhSCJBtT5llIXR98ZJOnNCnTj0-qitfNbDBY8bPeXJMHTvXQjBeUjaytRvYbY8Bh_dv6nQxw7_15Lif_JXpGWmhYx9fcB_LLdUQ-F-dFY_VGp7FGCF_5r3BZexRAmb2ORjVPLhB5rNqPUYP5XcaHVdJ6DhwrWOWvqwtpED7a-NECT-5KgSCUBWZ3NqGEjswp-8D-O_xVNhDqgufF8geGCUBxrBrMN31_G_4NdZajrjW8Wo7ZPP6XNV_vHoQHAM',
+  authorization:
+    'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6ImI5OGMzNDIzLTE5NDEtNDNhMC1hNmZmLTFhNzQ3NTBhOTc3YyIsImlhdCI6MTYxNjY4MDcyMiwibmJmIjoxNjE2NjgwNzIyLCJleHAiOjE2NTI2ODA3MjIsInR0bCI6MTY1MjY4MDcyMn0.__REDACTED__',
+  origin: 'https://localhost.whodis.io:3443',
+};
+
+const exampleExpiredTestUserHeaders = {
+  authorization:
+    'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6IjFlZGQ2ZmEzLTNhZTctNDI1My05ODk4LTNhZjgzODNhODg2YiIsImlhdCI6MTYxNjY4MDg0MywibmJmIjoxNjE2NjgwODQzLCJleHAiOjE2MTY2ODA4NDMsInR0bCI6MTYxNjY4MDg0M30.sOWoTgd0yF6rPmBEyCivG8HcI9P3QYhrVyB6iuTjDKfdVIoBic4sJWpbVYxP1chZlDrwFOpMfclD2pEKRIM8jQZHkgsTzObZ9hySFB40e56ligHbR-1aXsZgh2uISdWFZaurNlWz9YWn9cncPkXzlVREBcgGoLMlh0IK2EOkxFtMx73yUEOzFy8E0d74G8830gaZetdNOR2gIIIN_eR6gjQFjO2dXTEEinOPDQYYMhZ6WrSsvpfO94gfDngeQK3dt-osxMOyJL9cwX1nUBKT5IqawYuaMof2prZN_kQYLE5bFKb18XHR57FlXT4Ge314fh0NgbXuePtiliOOmjNxhwrIdeVgYpQ3gVWC30neIg68_C5U-PQKq_6TqxBSuZRqgHTg9Jslz1p8SBywlgd9F-IZ4UnEDQ7xOw9UWR4ZKe_OBPxfyzfOVp7vHbqn8LUi1mTE4nMP3jLbgWh2Lbv8uxUV24FD2n39sjVw68GLmiKVcCM55IHqoHAKCNdg2kK2agw73VzpLdWjQVk88as6t0sRnhYRsn2kX31G9sq3fy4rZQIUhsx2PRqAxK2Nxm4Y2lRJouUJIVk81EWHT1LxrNNWo-F-m3ObRwJCCGQXod1iKKGWKO35tgBo0B7NZBnQ7CMJAr0NdSb6741q9uX2f566xHQWOSRpJkdSr5F4Z7s',
+};
+
+// insecurely sent because the full token is accessible to javavscript, as it was set in the authorization header
+const exampleInsecurelySentAuthTokenHeaders = {
+  Cookie:
+    'authorization=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6IjFlZGQ2ZmEzLTNhZTctNDI1My05ODk4LTNhZjgzODNhODg2YiIsImlhdCI6MTYxNjY4MDg0MywibmJmIjoxNjE2NjgwODQzLCJleHAiOjE2MTY2ODA4NDMsInR0bCI6MTYxNjY4MDg0M30.sOWoTgd0yF6rPmBEyCivG8HcI9P3QYhrVyB6iuTjDKfdVIoBic4sJWpbVYxP1chZlDrwFOpMfclD2pEKRIM8jQZHkgsTzObZ9hySFB40e56ligHbR-1aXsZgh2uISdWFZaurNlWz9YWn9cncPkXzlVREBcgGoLMlh0IK2EOkxFtMx73yUEOzFy8E0d74G8830gaZetdNOR2gIIIN_eR6gjQFjO2dXTEEinOPDQYYMhZ6WrSsvpfO94gfDngeQK3dt-osxMOyJL9cwX1nUBKT5IqawYuaMof2prZN_kQYLE5bFKb18XHR57FlXT4Ge314fh0NgbXuePtiliOOmjNxhwrIdeVgYpQ3gVWC30neIg68_C5U-PQKq_6TqxBSuZRqgHTg9Jslz1p8SBywlgd9F-IZ4UnEDQ7xOw9UWR4ZKe_OBPxfyzfOVp7vHbqn8LUi1mTE4nMP3jLbgWh2Lbv8uxUV24FD2n39sjVw68GLmiKVcCM55IHqoHAKCNdg2kK2agw73VzpLdWjQVk88as6t0sRnhYRsn2kX31G9sq3fy4rZQIUhsx2PRqAxK2Nxm4Y2lRJouUJIVk81EWHT1LxrNNWo-F-m3ObRwJCCGQXod1iKKGWKO35tgBo0B7NZBnQ7CMJAr0NdSb6741q9uX2f566xHQWOSRpJkdSr5F4Z7s',
+  authorization:
+    'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6IjFlZGQ2ZmEzLTNhZTctNDI1My05ODk4LTNhZjgzODNhODg2YiIsImlhdCI6MTYxNjY4MDg0MywibmJmIjoxNjE2NjgwODQzLCJleHAiOjE2MTY2ODA4NDMsInR0bCI6MTYxNjY4MDg0M30.sOWoTgd0yF6rPmBEyCivG8HcI9P3QYhrVyB6iuTjDKfdVIoBic4sJWpbVYxP1chZlDrwFOpMfclD2pEKRIM8jQZHkgsTzObZ9hySFB40e56ligHbR-1aXsZgh2uISdWFZaurNlWz9YWn9cncPkXzlVREBcgGoLMlh0IK2EOkxFtMx73yUEOzFy8E0d74G8830gaZetdNOR2gIIIN_eR6gjQFjO2dXTEEinOPDQYYMhZ6WrSsvpfO94gfDngeQK3dt-osxMOyJL9cwX1nUBKT5IqawYuaMof2prZN_kQYLE5bFKb18XHR57FlXT4Ge314fh0NgbXuePtiliOOmjNxhwrIdeVgYpQ3gVWC30neIg68_C5U-PQKq_6TqxBSuZRqgHTg9Jslz1p8SBywlgd9F-IZ4UnEDQ7xOw9UWR4ZKe_OBPxfyzfOVp7vHbqn8LUi1mTE4nMP3jLbgWh2Lbv8uxUV24FD2n39sjVw68GLmiKVcCM55IHqoHAKCNdg2kK2agw73VzpLdWjQVk88as6t0sRnhYRsn2kX31G9sq3fy4rZQIUhsx2PRqAxK2Nxm4Y2lRJouUJIVk81EWHT1LxrNNWo-F-m3ObRwJCCGQXod1iKKGWKO35tgBo0B7NZBnQ7CMJAr0NdSb6741q9uX2f566xHQWOSRpJkdSr5F4Z7s',
+  origin: 'https://localhost.whodis.io:3443',
+};
+
+// attack because incorrect signature
+const exampleAttackAuthTokenHeaders = {
+  authorization:
+    'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRkLjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSJ9.eyJpc3MiOiJodHRwczovL2F1dGgud2hvZGlzLmlvLzMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImRpciI6IjMyYjhiNTU0LTEyZjUtNGY5Yi05ZjE2LWIxM2UwYjUzMjAxOSIsImF1ZCI6Imh0dHBzOi8vc2RrLndob2Rpcy5pbyIsInN1YiI6ImJlZWZiZWVmLWJlZWYtYmVlZi1iZWVmLWJlZWZiZWVmYmVlZiIsImp0aSI6IjFlZGQ2ZmEzLTNhZTctNDI1My05ODk4LTNhZjgzODNhODg2YiIsImlhdCI6MTYxNjY4MDg0MywibmJmIjoxNjE2NjgwODQzLCJleHAiOjE2MTY2ODA4NDMsInR0bCI6MTYxNjY4MDg0M30.sO__FAKE_INVALID_-1aXsZgh2uISdWFZaurNlWz9YWn9cncPkXzlVREBcgGoLMlh0IK2EOkxFtMx73yUEOzFy8E0d74G8830gaZetdNOR2gIIIN_eR6gjQFjO2dXTEEinOPDQYYMhZ6WrSsvpfO94gfDngeQK3dt-osxMOyJL9cwX1nUBKT5IqawYuaMof2prZN_kQYLE5bFKb18XHR57FlXT4Ge314fh0NgbXuePtiliOOmjNxhwrIdeVgYpQ3gVWC30neIg68_C5U-PQKq_6TqxBSuZRqgHTg9Jslz1p8SBywlgd9F-IZ4UnEDQ7xOw9UWR4ZKe_OBPxfyzfOVp7vHbqn8LUi1mTE4nMP3jLbgWh2Lbv8uxUV24FD2n39sjVw68GLmiKVcCM55IHqoHAKCNdg2kK2agw73VzpLdWjQVk88as6t0sRnhYRsn2kX31G9sq3fy4rZQIUhsx2PRqAxK2Nxm4Y2lRJouUJIVk81EWHT1LxrNNWo-F-m3ObRwJCCGQXod1iKKGWKO35tgBo0B7NZBnQ7CMJAr0NdSb6741q9uX2f566xHQWOSRpJkdSr5F4Z7s',
+};
+
+describe('getAuthedUserFromHeaders', () => {
+  it('should return null if no auth info', async () => {
+    const user = await getAuthedClaimsFromHeaders({ headers: {}, config, log });
+    expect(user).toEqual(null);
+  });
+  it('should be able to get the user data from headers, if authed', async () => {
+    const claims = await getAuthedClaimsFromHeaders({
+      headers: exampleNeverExpiringTestUserAuthHeaders,
+      config,
+      log,
+    });
+    expect(claims).not.toEqual(null);
+    expect(claims!.sub).toEqual('beefbeef-beef-beef-beef-beefbeefbeef');
+  });
+  it('should be able to get the user data from cookie headers, if authed', async () => {
+    const claims = await getAuthedClaimsFromHeaders({
+      headers: exampleNeverExpiringTestUserCookieAuthHeaders,
+      config,
+      log,
+    });
+    expect(claims).not.toEqual(null);
+    expect(claims!.sub).toEqual('beefbeef-beef-beef-beef-beefbeefbeef');
+  });
+  describe('auth failures', () => {
+    it('should return null and report expired token', async () => {
+      const user = await getAuthedClaimsFromHeaders({
+        headers: exampleExpiredTestUserHeaders,
+        config,
+        log,
+      });
+      expect(reportAuthErrorForDiagnosisMock).toHaveBeenCalled();
+      expect(user).toEqual(null);
+    });
+    it('should return null and report potential vulnerabilities', async () => {
+      const claims = await getAuthedClaimsFromHeaders({
+        headers: exampleInsecurelySentAuthTokenHeaders,
+        config,
+        log,
+      });
+      expect(reportAuthErrorForDiagnosisMock).toHaveBeenCalled();
+      expect(claims).toEqual(null);
+    });
+    it('should return null and report potential attacks', async () => {
+      const claims = await getAuthedClaimsFromHeaders({
+        headers: exampleAttackAuthTokenHeaders,
+        config,
+        log,
+      });
+      expect(reportAuthErrorForDiagnosisMock).toHaveBeenCalled();
+      expect(claims).toEqual(null);
+    });
+  });
+});
