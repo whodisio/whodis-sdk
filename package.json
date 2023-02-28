@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "simple-hmackey-auth": "^1.0.3",
     "simple-jwt-auth": "^0.7.1",
     "simple-leveled-log-methods": "^0.1.4",
     "whodis-client": "^0.9.1"

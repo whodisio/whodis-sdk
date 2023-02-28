@@ -2,28 +2,79 @@
 
 A simple sdk for easy, secure, best practices authentication with the whodis platform.
 
-Setup secure authentication for your app in seconds.
+Setup and manage secure authentication for your app in seconds.
 
-# usage
-
-### install
+# install
 
 ```sh
 npm install --save whodis-sdk
 ```
 
-### example
+# examples
 
-quick example of extracting authenticated user data from headers
+### getAuthedClaimsFromHeaders
+
+to securely get authenticated claims from headers containing a whodis auth token
 
 ```ts
 import { getAuthedClaimsFromHeaders } from 'whodis-sdk';
 
-const claims = await getAuthedClaimsFromHeaders({ headers: event.headers, config: config.whodis, log });
+const claims = await getAuthedClaimsFromHeaders({
+  headers: event.headers,
+  config: {
+    issuer: config.whodis.directory.issuer,
+    audience: config.whodis.directory.audience,
+  },
+  log
+});
 const userUuid = claims?.sub ?? null; // this is the userUuid that you can use to uniquely identify your users
 ```
 
-_note: assuming that the token was issued by [`whodis`](https://github.com/whodisio/whodis-cli) and fetched with [`whodis-client`](https://github.com/whodisio/whodis-client) / [`whodis-react`](https://github.com/whodisio/whodis-react)._
+_note: assumes that the token was issued by [`whodis`](https://github.com/whodisio/whodis-cli) and managed on the client by either [`whodis-client`](https://github.com/whodisio/whodis-client) or [`whodis-react`](https://github.com/whodisio/whodis-react)._
+
+### getUser
+
+to lookup a user's data by uuid
+
+```ts
+import { getUser } from 'whodis-sdk';
+
+const user = await getUser(
+  {
+    userUuid: string,
+  },
+  {
+    credentials: {
+      publicKey: config.whodis.api.publicKey,
+      privateKey: config.whodis.api.privateKey,
+    },
+  },
+);
+```
+
+### addUserContactMethod
+
+to lookup a user's data by uuid
+
+```ts
+import { addUserContactMethod } from 'whodis-sdk';
+
+const user = await addUserContactMethod(
+  {
+    userUuid: string,
+    contactMethod: {
+      type: 'EMAIL' | 'PHONE',
+      address: string,
+    }
+  },
+  {
+    credentials: {
+      publicKey: config.whodis.api.publicKey,
+      privateKey: config.whodis.api.privateKey,
+    },
+  },
+);
+```
 
 # docs
 
