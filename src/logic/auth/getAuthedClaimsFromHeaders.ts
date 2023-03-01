@@ -26,7 +26,6 @@ export const getAuthedClaimsFromHeaders = async ({
   try {
     // check if theres a token on the request
     const token = getTokenFromHeaders({ headers });
-    console.log({ token });
     if (!token) return null;
 
     // if there is, grab the claims
@@ -39,7 +38,6 @@ export const getAuthedClaimsFromHeaders = async ({
     // return the whodis user
     return claims;
   } catch (error) {
-    console.error(error);
     if (!(error instanceof Error)) throw error; // should never occur
     await reportAuthErrorForDiagnosis({ error, config, headers, log });
     return null;
