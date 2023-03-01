@@ -6,9 +6,9 @@ export { getUser } from '../logic/api/getUser';
 export { getAuthedClaimsFromHeaders } from '../logic/auth/getAuthedClaimsFromHeaders';
 
 // types
-export { WhodisAuthTokenClaims } from 'whodis-client';
 export {
   WhodisContactMethod,
   WhodisContactMethodType,
   WhodisUser,
+  WhodisAuthTokenClaims,
 } from '../domain';

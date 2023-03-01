@@ -64,8 +64,7 @@
     "simple-hmackey-auth": "^1.0.3",
     "simple-jwt-auth": "^0.7.1",
     "simple-leveled-log-methods": "^0.1.4",
-    "uuid": "9.0.0",
-    "whodis-client": "^0.9.1"
+    "uuid": "9.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "13.1.0",

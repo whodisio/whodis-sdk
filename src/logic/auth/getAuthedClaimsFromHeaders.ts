@@ -1,7 +1,7 @@
 import { getAuthedClaims, getTokenFromHeaders } from 'simple-jwt-auth';
 import { LogMethod } from 'simple-leveled-log-methods';
-import { WhodisAuthTokenClaims } from 'whodis-client';
 
+import { WhodisAuthTokenClaims } from '../../domain';
 import { reportAuthErrorForDiagnosis } from './reportAuthErrorForDiagnosis';
 
 /**
