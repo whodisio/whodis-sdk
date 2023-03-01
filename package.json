@@ -1,6 +1,6 @@
 {
   "name": "whodis-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A simple sdk for easy, secure authentication with the whodis platform. Setup secure authentication for your app in seconds.",
   "author": "UladKasach @uladkasach",
   "license": "MIT",
