@@ -9,7 +9,8 @@ const config = {
 };
 
 jest.mock('./reportAuthErrorForDiagnosis');
-const reportAuthErrorForDiagnosisMock = reportAuthErrorForDiagnosis as jest.Mock;
+const reportAuthErrorForDiagnosisMock =
+  reportAuthErrorForDiagnosis as jest.Mock;
 
 const exampleNeverExpiringTestUserAuthHeaders = {
   authorization:

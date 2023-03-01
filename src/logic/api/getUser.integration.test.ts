@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-import uuid from 'uuid';
+
+import { uuid } from '../../deps';
 import { getUser } from './getUser';
 
 dotenv.config();

@@ -7,4 +7,8 @@ export { getAuthedClaimsFromHeaders } from '../logic/auth/getAuthedClaimsFromHea
 
 // types
 export { WhodisAuthTokenClaims } from 'whodis-client';
-export { WhodisContactMethod, WhodisContactMethodType, WhodisUser } from '../domain';
+export {
+  WhodisContactMethod,
+  WhodisContactMethodType,
+  WhodisUser,
+} from '../domain';
