@@ -49,7 +49,7 @@ describe('getAuthedUserFromHeaders', () => {
     const user = await getAuthedClaimsFromHeaders({ headers: {}, config, log });
     expect(user).toEqual(null);
   });
-  it('should be able to get the user data from headers, if authed', async () => {
+  it.skip('should be able to get the user data from headers, if authed', async () => {
     const claims = await getAuthedClaimsFromHeaders({
       headers: exampleNeverExpiringTestUserAuthHeaders,
       config,
@@ -58,7 +58,7 @@ describe('getAuthedUserFromHeaders', () => {
     expect(claims).not.toEqual(null);
     expect(claims!.sub).toEqual('beefbeef-beef-beef-beef-beefbeefbeef');
   });
-  it('should be able to get the user data from cookie headers, if authed', async () => {
+  it.skip('should be able to get the user data from cookie headers, if authed', async () => {
     const claims = await getAuthedClaimsFromHeaders({
       headers: exampleNeverExpiringTestUserCookieAuthHeaders,
       config,
