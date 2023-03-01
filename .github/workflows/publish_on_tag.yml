@@ -23,9 +23,8 @@ jobs:
       - name: tests
         run: CICD=true npm run test
         env:
-          ASK_AUTH_CHALLENGE_EXAMPLE_EMAIL: ${{ secrets.ASK_AUTH_CHALLENGE_EXAMPLE_EMAIL }}
-          ASK_AUTH_CHALLENGE_EXAMPLE_DIRECTORY_UUID: ${{ secrets.ASK_AUTH_CHALLENGE_EXAMPLE_DIRECTORY_UUID }}
-          ASK_AUTH_CHALLENGE_EXAMPLE_CLIENT_TOKEN: ${{ secrets.ASK_AUTH_CHALLENGE_EXAMPLE_CLIENT_TOKEN }}
+          API_PUBLIC_KEY: ${{ secrets.API_PUBLIC_KEY }}
+          API_PRIVATE_KEY: ${{ secrets.API_PRIVATE_KEY }}
 
       - name: publish
         run: npm publish
