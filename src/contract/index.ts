@@ -1,5 +1,6 @@
 // api methods
 export { addUserContactMethod } from '../logic/api/addUserContactMethod';
+export { createUser } from '../logic/api/createUser';
 export { getUser } from '../logic/api/getUser';
 
 // auth methods

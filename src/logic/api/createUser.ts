@@ -1,13 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { createSecureRequestSignature } from 'simple-hmackey-auth';
-import { PickOne } from 'type-fns';
 
 import { WhodisContactMethod, WhodisUser } from '../../domain';
 import { WHODIS_API_HOST } from './WHODIS_API_HOST';
 import { findWhodisBadRequestErrorInAxiosError } from './WhodisBadRequestError';
 
-export const getUser = async (
-  args: PickOne<{ userUuid: string; contactMethod: WhodisContactMethod }>,
+export const createUser = async (
+  args: { userUuid: string; contactMethod: WhodisContactMethod },
   context: { credentials: { privateKey: string; publicKey: string } },
 ): Promise<WhodisUser | null> => {
   // create a signature for the request
@@ -16,7 +15,7 @@ export const getUser = async (
     clientPrivateKey: context.credentials.privateKey,
     request: {
       host: WHODIS_API_HOST,
-      endpoint: '/sdk/user/get',
+      endpoint: '/sdk/user/create',
       headers: {},
       payload: args,
     },
@@ -24,9 +23,11 @@ export const getUser = async (
 
   // make the request // reserve the namespace
   try {
-    const { data } = await axios.post(`${WHODIS_API_HOST}/sdk/user/get`, args, {
-      headers: { authorization: `HMAC ${signature}` },
-    });
+    const { data } = await axios.post(
+      `${WHODIS_API_HOST}/sdk/user/create`,
+      args,
+      { headers: { authorization: `HMAC ${signature}` } },
+    );
     return data.user;
   } catch (error) {
     if (!(error instanceof Error)) throw error;
