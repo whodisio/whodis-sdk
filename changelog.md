@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/whodisio/whodis-sdk/compare/v0.3.0...v0.3.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **types:** assert that createUser returns a user ([1e9280c](https://github.com/whodisio/whodis-sdk/commit/1e9280ce35d884250466c5f3aa47ae31eea2b45a))
+
 ## [0.3.0](https://github.com/whodisio/whodis-sdk/compare/v0.2.4...v0.3.0) (2023-05-22)
 
 
