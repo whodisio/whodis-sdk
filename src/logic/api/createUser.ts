@@ -8,7 +8,7 @@ import { findWhodisBadRequestErrorInAxiosError } from './WhodisBadRequestError';
 export const createUser = async (
   args: { userUuid: string; contactMethod: WhodisContactMethod },
   context: { credentials: { privateKey: string; publicKey: string } },
-): Promise<WhodisUser | null> => {
+): Promise<WhodisUser> => {
   // create a signature for the request
   const signature = await createSecureRequestSignature({
     clientPublicKey: context.credentials.publicKey,
