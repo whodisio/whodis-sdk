@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/whodisio/whodis-sdk/compare/v0.2.4...v0.3.0) (2023-05-22)
+
+
+### Features
+
+* **api:** createUser and getUser.byContactMethod ([cc4d140](https://github.com/whodisio/whodis-sdk/commit/cc4d1406d51dfe5d6aec08c4cec09c4836cb55f5))
+
 ## [0.2.4](https://github.com/whodisio/whodis-sdk/compare/v0.2.3...v0.2.4) (2023-03-01)
 
 
