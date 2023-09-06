@@ -23,7 +23,7 @@ describe('getUser', () => {
   });
   it('should get user data for a real user by uuid', async () => {
     const user = await getUser(
-      { userUuid: '26e898e4-9993-4fdb-96d3-b30c732aefdf' },
+      { userUuid: 'a403997e-f727-45ad-8afc-d4a99137f821' },
       {
         credentials: {
           publicKey: process.env.API_PUBLIC_KEY!,

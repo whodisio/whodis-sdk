@@ -11,7 +11,7 @@ describe('addUserContactMethod', () => {
   it('should be able to add a contact method', async () => {
     const user = await addUserContactMethod(
       {
-        userUuid: '26e898e4-9993-4fdb-96d3-b30c732aefdf',
+        userUuid: 'a403997e-f727-45ad-8afc-d4a99137f821',
         contactMethod: {
           channel: WhodisContactMethodType.EMAIL,
           address: 'bobbert@snailmail.com',
