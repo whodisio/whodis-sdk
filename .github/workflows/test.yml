@@ -15,3 +15,6 @@ concurrency:
 jobs:
   suite:
     uses: ./.github/workflows/.test.yml
+    secrets:
+      API_PUBLIC_KEY: ${{ secrets.API_PUBLIC_KEY }}
+      API_PRIVATE_KEY: ${{ secrets.API_PRIVATE_KEY }}

@@ -18,6 +18,10 @@ on:
       aws-secret-access-key:
         required: false
         description: required credentials to authenticate with aws the aws account against which to run the tests
+      API_PUBLIC_KEY:
+        required: true
+      API_PRIVATE_KEY:
+        required: true
 
 jobs:
   install:
@@ -203,6 +207,9 @@ jobs:
 
       - name: test:integration
         run: npm run test:integration
+        env:
+          API_PUBLIC_KEY: ${{ secrets.API_PUBLIC_KEY }}
+          API_PRIVATE_KEY: ${{ secrets.API_PRIVATE_KEY }}
 
   test-acceptance-locally:
     runs-on: ubuntu-latest
@@ -244,3 +251,6 @@ jobs:
 
       - name: test:acceptance:locally
         run: npm run test:acceptance:locally
+        env:
+          API_PUBLIC_KEY: ${{ secrets.API_PUBLIC_KEY }}
+          API_PRIVATE_KEY: ${{ secrets.API_PRIVATE_KEY }}
