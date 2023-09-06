@@ -2,12 +2,16 @@ import axios, { AxiosError } from 'axios';
 import { createSecureRequestSignature } from 'simple-hmackey-auth';
 import { PickOne } from 'type-fns';
 
-import { WhodisContactMethod, WhodisUser } from '../../domain';
+import { WhodisContactMethod, WhodisIdentity, WhodisUser } from '../../domain';
 import { WHODIS_API_HOST } from './WHODIS_API_HOST';
 import { findWhodisBadRequestErrorInAxiosError } from './WhodisBadRequestError';
 
 export const getUser = async (
-  args: PickOne<{ userUuid: string; contactMethod: WhodisContactMethod }>,
+  args: PickOne<{
+    userUuid: string;
+    contactMethod: WhodisContactMethod;
+    identity: Omit<WhodisIdentity, 'uuid'>;
+  }>,
   context: { credentials: { privateKey: string; publicKey: string } },
 ): Promise<WhodisUser | null> => {
   // create a signature for the request

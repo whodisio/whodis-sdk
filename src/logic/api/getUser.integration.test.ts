@@ -39,7 +39,7 @@ describe('getUser', () => {
     const user = await getUser(
       {
         contactMethod: {
-          type: WhodisContactMethodType.EMAIL,
+          channel: WhodisContactMethodType.EMAIL,
           address: 'bobbert@snailmail.com',
         },
       },

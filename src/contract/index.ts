@@ -12,4 +12,9 @@ export {
   WhodisContactMethodType,
   WhodisUser,
   WhodisAuthTokenClaims,
+  WhodisIdentity,
+  WhodisIdentityOrigin,
+  WhodisIdentityProfile,
+  WhodisIdentityProfileName,
+  WhodisIdentityProfilePicture,
 } from '../domain';

@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 
 import { WhodisContactMethodType } from '../../domain';
-import { addUserContactMethod } from './addUserContactMethod';
 import { createUser } from './createUser';
 
 dotenv.config();
@@ -12,9 +11,9 @@ describe('createUser', () => {
   it('should be able to add a contact method', async () => {
     const user = await createUser(
       {
-        userUuid: 'bde659d8-edbc-4103-9699-c8d6e9fee8b9',
+        externalId: 'whodis-sdk:bde659d8-edbc-4103-9699-c8d6e9fee8b9',
         contactMethod: {
-          type: WhodisContactMethodType.EMAIL,
+          channel: WhodisContactMethodType.EMAIL,
           address: 'tedoramustacomsu@gmail.com',
         },
       },

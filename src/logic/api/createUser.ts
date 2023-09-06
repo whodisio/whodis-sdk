@@ -6,7 +6,7 @@ import { WHODIS_API_HOST } from './WHODIS_API_HOST';
 import { findWhodisBadRequestErrorInAxiosError } from './WhodisBadRequestError';
 
 export const createUser = async (
-  args: { userUuid: string; contactMethod: WhodisContactMethod },
+  args: { externalId: string; contactMethod: WhodisContactMethod },
   context: { credentials: { privateKey: string; publicKey: string } },
 ): Promise<WhodisUser> => {
   // create a signature for the request
