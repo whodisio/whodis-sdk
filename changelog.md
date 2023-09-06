@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0](https://github.com/whodisio/whodis-sdk/compare/v0.3.1...v0.4.0) (2023-09-06)
+
+
+### Features
+
+* **oidc:** support oidc identities ([affff74](https://github.com/whodisio/whodis-sdk/commit/affff741e64a2eb2cf52b25eef21afe0aa8474e8))
+
+
+### Bug Fixes
+
+* **cicd:** pass secrets as env vars correctly ([8eb2840](https://github.com/whodisio/whodis-sdk/commit/8eb2840038f6a93f7cf299a7544329f19a91de5b))
+* **deps:** remove extra deps ([e269159](https://github.com/whodisio/whodis-sdk/commit/e269159a4bb34fce2bcdec295ca984d170f49582))
+* **practs:** bump to latest best practs ([c8d74fc](https://github.com/whodisio/whodis-sdk/commit/c8d74fc71e408ba9162b997f64b19ad94f142d33))
+* **test:** update test since directory changed ([9b3f357](https://github.com/whodisio/whodis-sdk/commit/9b3f3574f6a5d107e7becbc005d73cec7012b474))
+
 ## [0.3.1](https://github.com/whodisio/whodis-sdk/compare/v0.3.0...v0.3.1) (2023-05-22)
 
 
