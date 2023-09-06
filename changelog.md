@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/whodisio/whodis-sdk/compare/v0.4.0...v0.4.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* **cicd:** ensure publish isnt blocked ([7278bba](https://github.com/whodisio/whodis-sdk/commit/7278bba961e32ec30f6fa5109b17dde9fafa008d))
+
 ## [0.4.0](https://github.com/whodisio/whodis-sdk/compare/v0.3.1...v0.4.0) (2023-09-06)
 
 
