@@ -2,7 +2,7 @@
   "name": "whodis-sdk",
   "author": "whodis",
   "description": "A simple sdk for easy, secure authentication with the whodis platform. Setup secure authentication for your app in seconds.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "repository": "whodisio/whodis-sdk",
   "homepage": "https://github.com/whodisio/whodis-sdk",
   "keywords": [
