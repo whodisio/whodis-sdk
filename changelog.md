@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/whodisio/whodis-sdk/compare/v0.4.1...v0.4.2) (2023-09-08)
+
+
+### Bug Fixes
+
+* **domain:** contactMethod.channel -&gt; contactMethod.type ([6677579](https://github.com/whodisio/whodis-sdk/commit/6677579bd5292774b40291d573c1534847598cc3))
+
 ## [0.4.1](https://github.com/whodisio/whodis-sdk/compare/v0.4.0...v0.4.1) (2023-09-06)
 
 
