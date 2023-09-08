@@ -10,7 +10,7 @@ export enum WhodisContactMethodType {
  * a contact method that can be used for authentication
  */
 export interface WhodisContactMethod {
-  channel: WhodisContactMethodType;
+  type: WhodisContactMethodType;
   address: string;
 }
 

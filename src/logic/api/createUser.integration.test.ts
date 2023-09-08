@@ -13,7 +13,7 @@ describe('createUser', () => {
       {
         externalId: 'whodis-sdk:bde659d8-edbc-4103-9699-c8d6e9fee8b9',
         contactMethod: {
-          channel: WhodisContactMethodType.EMAIL,
+          type: WhodisContactMethodType.EMAIL,
           address: 'tedoramustacomsu@gmail.com',
         },
       },

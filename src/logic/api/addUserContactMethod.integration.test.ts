@@ -13,7 +13,7 @@ describe('addUserContactMethod', () => {
       {
         userUuid: 'a403997e-f727-45ad-8afc-d4a99137f821',
         contactMethod: {
-          channel: WhodisContactMethodType.EMAIL,
+          type: WhodisContactMethodType.EMAIL,
           address: 'bobbert@snailmail.com',
         },
       },
