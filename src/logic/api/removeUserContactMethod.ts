@@ -5,7 +5,7 @@ import { WhodisContactMethod, WhodisUser } from '../../domain';
 import { WHODIS_API_HOST } from './WHODIS_API_HOST';
 import { findWhodisBadRequestErrorInAxiosError } from './WhodisBadRequestError';
 
-export const addUserContactMethod = async (
+export const removeUserContactMethod = async (
   args: { userUuid: string; contactMethod: WhodisContactMethod },
   context: { credentials: { privateKey: string; publicKey: string } },
 ): Promise<WhodisUser | null> => {
@@ -15,7 +15,7 @@ export const addUserContactMethod = async (
     clientPrivateKey: context.credentials.privateKey,
     request: {
       host: WHODIS_API_HOST,
-      endpoint: '/sdk/user/contact-method/add',
+      endpoint: '/sdk/user/contact-method/remove',
       headers: {},
       payload: args,
     },
@@ -24,7 +24,7 @@ export const addUserContactMethod = async (
   // make the request
   try {
     const { data } = await axios.post(
-      `${WHODIS_API_HOST}/sdk/user/contact-method/add`,
+      `${WHODIS_API_HOST}/sdk/user/contact-method/remove`,
       args,
       { headers: { authorization: `HMAC ${signature}` } },
     );
