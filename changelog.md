@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/whodisio/whodis-sdk/compare/v0.4.2...v0.5.0) (2023-11-08)
+
+
+### Features
+
+* **api:** enable removing user contact methods ([#8](https://github.com/whodisio/whodis-sdk/issues/8)) ([ec5c389](https://github.com/whodisio/whodis-sdk/commit/ec5c389f7586e9fe355fb3d7c661f2d0f2a6f1b5))
+
 ## [0.4.2](https://github.com/whodisio/whodis-sdk/compare/v0.4.1...v0.4.2) (2023-09-08)
 
 
