@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/whodisio/whodis-sdk/compare/v0.5.0...v0.5.1) (2023-11-11)
+
+
+### Bug Fixes
+
+* **contract:** expose the removal method ([3aff2bb](https://github.com/whodisio/whodis-sdk/commit/3aff2bbff1bdea6050e8074ff2db5f7d97db07a6))
+
 ## [0.5.0](https://github.com/whodisio/whodis-sdk/compare/v0.4.2...v0.5.0) (2023-11-08)
 
 
