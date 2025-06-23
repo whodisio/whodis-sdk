@@ -7,6 +7,9 @@ export { getUser } from '../logic/api/getUser';
 // auth methods
 export { getAuthedClaimsFromHeaders } from '../logic/auth/getAuthedClaimsFromHeaders';
 
+// prep methods
+export { genTestUserUuid, isTestUserUuid } from '../logic/prep/genTestUserUuid';
+
 // types
 export {
   WhodisContactMethod,
