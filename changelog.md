@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/whodisio/whodis-sdk/compare/v0.6.0...v0.6.1) (2025-06-23)
+
+
+### Bug Fixes
+
+* **contract:** expose new mechs in contract ([ddde0f4](https://github.com/whodisio/whodis-sdk/commit/ddde0f434791639bfd01a83d53149beadcc867a9))
+
 ## [0.6.0](https://github.com/whodisio/whodis-sdk/compare/v0.5.1...v0.6.0) (2025-06-23)
 
 
