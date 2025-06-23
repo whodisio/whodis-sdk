@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/whodisio/whodis-sdk/compare/v0.5.1...v0.6.0) (2025-06-23)
+
+
+### Features
+
+* **prep:** expose is & gen test user uuid procedures ([cbe0ce1](https://github.com/whodisio/whodis-sdk/commit/cbe0ce143ee78a22737dd33ba475e61efc05097f))
+
+
+### Bug Fixes
+
+* **practs:** bump to latest best ([f2c1e44](https://github.com/whodisio/whodis-sdk/commit/f2c1e445b1a0d67071a24c966b6285535a8556ec))
+
 ## [0.5.1](https://github.com/whodisio/whodis-sdk/compare/v0.5.0...v0.5.1) (2023-11-11)
 
 
